@@ -1,0 +1,37 @@
+package mmtk.student;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * Author : Min Myat Thu Kha
+ * Created At : 25/01/2025, Jan
+ * Project Name : Microservices
+ **/
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/students")
+public class StudentController {
+
+    private final StudentService studentService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveStudent(@RequestBody Student student) {
+        studentService.saveStudent(student);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Student>> findAllStudents() {
+        return ResponseEntity.ok(studentService.findAllStudents());
+    }
+
+    @GetMapping("/school/{school-id}")
+    public ResponseEntity<List<Student>> findAllStudents(@PathVariable("school-id") Integer schoolId) {
+        return ResponseEntity.ok(studentService.findStudentsBySchool(schoolId));
+    }
+}
